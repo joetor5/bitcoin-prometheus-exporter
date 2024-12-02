@@ -1,4 +1,3 @@
-version: '3.3'
 services:
   bitcoind:
     # DO NOT USE THIS IMAGE EXCEPT FOR TESTING!

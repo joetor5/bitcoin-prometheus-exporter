@@ -4,7 +4,7 @@
 # An exporter for Prometheus and Bitcoin Core.
 #
 # Copyright 2018 Kevin M. Gallagher
-# Copyright 2019,2020 Jeff Stein
+# Copyright 2019-2024 Jeff Stein
 #
 # Published at https://github.com/jvstein/bitcoin-prometheus-exporter
 # Licensed under BSD 3-clause (see LICENSE).
