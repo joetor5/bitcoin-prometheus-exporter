@@ -63,7 +63,9 @@ BITCOIN_MEMPOOL_SIZE = Gauge(
     "bitcoin_mempool_size", "Number of unconfirmed transactions in mempool"
 )
 BITCOIN_MEMPOOL_USAGE = Gauge("bitcoin_mempool_usage", "Total memory usage for the mempool")
-BITCOIN_MEMPOOL_MINFEE = Gauge("bitcoin_mempool_minfee", "Minimum fee rate in BTC/kB for tx to be accepted in mempool")
+BITCOIN_MEMPOOL_MINFEE = Gauge(
+    "bitcoin_mempool_minfee", "Minimum fee rate in BTC/kB for tx to be accepted in mempool"
+)
 BITCOIN_MEMPOOL_UNBROADCAST = Gauge(
     "bitcoin_mempool_unbroadcast", "Number of transactions waiting for acknowledgment"
 )
@@ -99,12 +101,17 @@ BITCOIN_LATEST_BLOCK_FEE = Gauge(
     "bitcoin_latest_block_fee", "Total fee to process the latest block"
 )
 
-BITCOIN_BAN_CREATED = Gauge(
-    "bitcoin_ban_created", "Time the ban was created", labelnames=["address", "reason"]
-)
-BITCOIN_BANNED_UNTIL = Gauge(
-    "bitcoin_banned_until", "Time the ban expires", labelnames=["address", "reason"]
-)
+BAN_ADDRESS_METRICS = os.environ.get("BAN_ADDRESS_METRICS", "false").lower() == "true"
+BITCOIN_BANNED_PEERS = Gauge("bitcoin_banned_peers", "Number of peers that have been banned")
+BITCOIN_BAN_CREATED = None
+BITCOIN_BANNED_UNTIL = None
+if BAN_ADDRESS_METRICS:
+    BITCOIN_BAN_CREATED = Gauge(
+        "bitcoin_ban_created", "Time the ban was created", labelnames=["address", "reason"]
+    )
+    BITCOIN_BANNED_UNTIL = Gauge(
+        "bitcoin_banned_until", "Time the ban expires", labelnames=["address", "reason"]
+    )
 
 BITCOIN_SERVER_VERSION = Gauge("bitcoin_server_version", "The server version")
 BITCOIN_PROTOCOL_VERSION = Gauge("bitcoin_protocol_version", "The protocol version of the server")
@@ -298,13 +305,17 @@ def refresh_metrics() -> None:
     for hashps_block in HASHPS_BLOCKS:
         do_hashps_gauge(hashps_block)
 
-    for ban in banned:
-        BITCOIN_BAN_CREATED.labels(
-            address=ban["address"], reason=ban.get("ban_reason", "manually added")
-        ).set(ban["ban_created"])
-        BITCOIN_BANNED_UNTIL.labels(
-            address=ban["address"], reason=ban.get("ban_reason", "manually added")
-        ).set(ban["banned_until"])
+    BITCOIN_BANNED_PEERS.set(len(banned))
+    if BAN_ADDRESS_METRICS:
+        for ban in banned:
+            if BITCOIN_BAN_CREATED:
+                BITCOIN_BAN_CREATED.labels(
+                    address=ban["address"], reason=ban.get("ban_reason", "manually added")
+                ).set(ban["ban_created"])
+            if BITCOIN_BANNED_UNTIL:
+                BITCOIN_BANNED_UNTIL.labels(
+                    address=ban["address"], reason=ban.get("ban_reason", "manually added")
+                ).set(ban["banned_until"])
 
     if networkinfo["warnings"]:
         BITCOIN_WARNINGS.inc()

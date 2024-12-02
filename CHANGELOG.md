@@ -3,13 +3,18 @@ Changes to the project.
 
 ## [Unreleased]
 
+BREAKING CHANGE: The `bitcoin_ban_created` and `bitcoin_banned_until` metrics are now disabled by default. Re-enable,
+if desired, using `BAN_ADDRESS_METRICS=true`.
+
 ### Changed
 - Update docker base image to be fully qualifed for better podman support ([#25][pr-25])
 - Add metric for minimum fee ([#31][pr-31])
 - Upgrade to Python 3.12
+- Disable per-address metrics for banned peers. Add `bitcoin_banned_peers` metric for summary information. ([#13][issue-13])
 
 [pr-25]: https://github.com/jvstein/bitcoin-prometheus-exporter/pull/25
 [pr-31]: https://github.com/jvstein/bitcoin-prometheus-exporter/pull/31
+[issue-13]: https://github.com/jvstein/bitcoin-prometheus-exporter/issues/13
 
 
 ## [0.7.0] - 2022-01-14
