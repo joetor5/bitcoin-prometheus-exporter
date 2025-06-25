@@ -3,6 +3,9 @@ Changes to the project.
 
 ## [Unreleased]
 
+
+## [0.8.0] - 2025-06-25
+
 BREAKING CHANGE: The `bitcoin_ban_created` and `bitcoin_banned_until` metrics are now disabled by default. Re-enable,
 if desired, using `BAN_ADDRESS_METRICS=true`.
 
@@ -180,7 +183,8 @@ as-is in the first commit.
 
 [python-bitcoinlib]: https://github.com/petertodd/python-bitcoinlib
 
-[Unreleased]: https://github.com/jvstein/bitcoin-prometheus-exporter/compare/v0.7.0...HEAD
+[Unreleased]: https://github.com/jvstein/bitcoin-prometheus-exporter/compare/v0.8.0...HEAD
+[0.8.0]: https://github.com/jvstein/bitcoin-prometheus-exporter/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/jvstein/bitcoin-prometheus-exporter/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/jvstein/bitcoin-prometheus-exporter/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/jvstein/bitcoin-prometheus-exporter/compare/v0.4.0...v0.5.0
