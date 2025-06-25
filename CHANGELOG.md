@@ -9,7 +9,7 @@ if desired, using `BAN_ADDRESS_METRICS=true`.
 ### Changed
 - Update docker base image to be fully qualifed for better podman support ([#25][pr-25])
 - Add metric for minimum fee ([#31][pr-31])
-- Upgrade to Python 3.12
+- Upgrade to Python 3.13
 - Disable per-address metrics for banned peers. Add `bitcoin_banned_peers` metric for summary information. ([#13][issue-13])
 - Removed unused `RETRIES` variable (#36)
 
