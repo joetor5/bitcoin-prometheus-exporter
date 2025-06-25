@@ -143,7 +143,6 @@ HASHPS_BLOCKS = [int(b) for b in os.environ.get("HASHPS_BLOCKS", "-1,1,120").spl
 SMART_FEES = [int(f) for f in os.environ.get("SMARTFEE_BLOCKS", "2,3,5,20").split(",") if f != ""]
 METRICS_ADDR = os.environ.get("METRICS_ADDR", "")  # empty = any address
 METRICS_PORT = int(os.environ.get("METRICS_PORT", "9332"))
-RETRIES = int(os.environ.get("RETRIES", 5))
 TIMEOUT = int(os.environ.get("TIMEOUT", 30))
 RATE_LIMIT_SECONDS = int(os.environ.get("RATE_LIMIT", 5))
 LOG_LEVEL = os.environ.get("LOG_LEVEL", "INFO")

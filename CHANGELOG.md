@@ -11,10 +11,12 @@ if desired, using `BAN_ADDRESS_METRICS=true`.
 - Add metric for minimum fee ([#31][pr-31])
 - Upgrade to Python 3.12
 - Disable per-address metrics for banned peers. Add `bitcoin_banned_peers` metric for summary information. ([#13][issue-13])
+- Removed unused `RETRIES` variable (#36)
 
 [pr-25]: https://github.com/jvstein/bitcoin-prometheus-exporter/pull/25
 [pr-31]: https://github.com/jvstein/bitcoin-prometheus-exporter/pull/31
 [issue-13]: https://github.com/jvstein/bitcoin-prometheus-exporter/issues/13
+[issue-36]: https://github.com/jvstein/bitcoin-prometheus-exporter/issues/36
 
 
 ## [0.7.0] - 2022-01-14
