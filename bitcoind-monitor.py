@@ -354,8 +354,9 @@ def refresh_metrics() -> None:
     BITCOIN_RPC_ACTIVE.set(len(rpcinfo["active_commands"]) - 1)
 
 
-def sigterm_handler(signal, frame) -> None:
-    logger.critical("Received SIGTERM. Exiting.")
+def signal_handler(signum, frame) -> None:
+    signame = signal.Signals(signum).name
+    logger.critical("Received {}. Exiting.".format(signame))
     sys.exit(0)
 
 
@@ -373,8 +374,9 @@ def main():
     logging.Formatter.converter = time.gmtime
     logger.setLevel(LOG_LEVEL)
 
-    # Handle SIGTERM gracefully.
-    signal.signal(signal.SIGTERM, sigterm_handler)
+    # Handle signals gracefully.
+    signal.signal(signal.SIGTERM, signal_handler)
+    signal.signal(signal.SIGINT, signal_handler)
 
     app = make_wsgi_app()
 
