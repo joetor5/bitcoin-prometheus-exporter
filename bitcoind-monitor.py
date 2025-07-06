@@ -356,8 +356,9 @@ def refresh_metrics() -> None:
 
 def signal_handler(signum, frame) -> None:
     signame = signal.Signals(signum).name
-    logger.critical("Received {}. Exiting.".format(signame))
-    sys.exit(0)
+    exit_code = 128 + signum
+    logger.critical(f"Received {signame}. Exiting.")
+    sys.exit(exit_code)
 
 
 def exception_count(e: Exception) -> None:
