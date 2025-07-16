@@ -3,6 +3,11 @@ Changes to the project.
 
 ## [Unreleased]
 
+### Changed
+- Exporter now exits cleanly on SIGTERM. SIGINT now exits with a non-zero code. ([#38][pr-38])
+
+[pr-38]: https://github.com/jvstein/bitcoin-prometheus-exporter/pull/38
+
 
 ## [0.8.0] - 2025-06-25
 
