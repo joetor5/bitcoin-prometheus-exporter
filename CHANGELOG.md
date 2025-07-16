@@ -20,7 +20,7 @@ if desired, using `BAN_ADDRESS_METRICS=true`.
 - Upgrade to Python 3.13
 - Remove support for s390x docker image
 - Disable per-address metrics for banned peers. Add `bitcoin_banned_peers` metric for summary information. ([#13][issue-13])
-- Remove unused `RETRIES` variable (#36)
+- Remove unused `RETRIES` variable ([#36][issue-36])
 
 [pr-25]: https://github.com/jvstein/bitcoin-prometheus-exporter/pull/25
 [pr-31]: https://github.com/jvstein/bitcoin-prometheus-exporter/pull/31
