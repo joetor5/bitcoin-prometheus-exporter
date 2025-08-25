@@ -14,6 +14,7 @@
 #   python-bitcoinlib: LGPLv3
 #   riprova: MIT
 
+import base64
 import json
 import logging
 import time
@@ -164,6 +165,22 @@ def error_evaluator(e: Exception) -> bool:
     return isinstance(e, RETRY_EXCEPTIONS)
 
 
+class UsernamePasswordProxy(Proxy):
+    def __init__(self, *args, username=None, password=None, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+
+        # Modify the authentication header used by the underlying Proxy class.
+        if username and password:
+            authpair = f"{username}:{password}".encode("utf-8")
+            authheader = b"Basic " + base64.b64encode(authpair)
+
+            # Try to make the name mangling resilient to class name changes.
+            key = next((k for k in self.__dict__.keys() if k.endswith("__auth_header")), None)
+            if not key:
+                raise Exception("Failed to find __auth_header in base class")
+            self.__dict__[key] = authheader
+
+
 @lru_cache(maxsize=1)
 def rpc_client_factory():
     # Configuration is done in this order of precedence:
@@ -181,12 +198,19 @@ def rpc_client_factory():
         return lambda: Proxy(btc_conf_file=BITCOIN_CONF_PATH, timeout=TIMEOUT)
     else:
         host = BITCOIN_RPC_HOST
-        host = "{}:{}@{}".format(BITCOIN_RPC_USER, BITCOIN_RPC_PASSWORD, host)
         if BITCOIN_RPC_PORT:
             host = "{}:{}".format(host, BITCOIN_RPC_PORT)
-        service_url = "{}://{}".format(BITCOIN_RPC_SCHEME, host)
+        service_url = f"{BITCOIN_RPC_SCHEME}://{host}"
         logger.info("Using environment configuration")
-        return lambda: Proxy(service_url=service_url, timeout=TIMEOUT)
+
+        # The underlying library can't parse the service_url parameter if the username or password
+        # are encoded. The subclass modifies the header directly instead.
+        return lambda: UsernamePasswordProxy(
+            service_url=service_url,
+            username=BITCOIN_RPC_USER,
+            password=BITCOIN_RPC_PASSWORD,
+            timeout=TIMEOUT
+        )
 
 
 def rpc_client():

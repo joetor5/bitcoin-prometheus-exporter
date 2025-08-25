@@ -5,8 +5,10 @@ Changes to the project.
 
 ### Changed
 - Exporter now exits cleanly on SIGTERM. SIGINT now exits with a non-zero code. ([#38][pr-38])
+- Username and password are now properly handled when they contain URL reserved characters. ([#40][issue-40])
 
 [pr-38]: https://github.com/jvstein/bitcoin-prometheus-exporter/pull/38
+[issue-40]: https://github.com/jvstein/bitcoin-prometheus-exporter/issues/40
 
 
 ## [0.8.0] - 2025-06-25
