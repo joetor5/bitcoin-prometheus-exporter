@@ -15,7 +15,7 @@ RUN pip install --no-cache-dir \
         riprova
 
 RUN mkdir -p /monitor
-ADD ./bitcoind-monitor.py /monitor
+COPY --chmod=555 ./bitcoind-monitor.py /monitor
 
 USER nobody
 
